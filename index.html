@@ -314,25 +314,30 @@
         }
     </script>
     <!-- AUDIO -->
-<audio id="bg-music" loop>
+<audio id="bg-music" autoplay loop muted playsinline>
     <source src="https://files.catbox.moe/f543pj.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 const music = document.getElementById("bg-music");
 
-// default volume
+// set volume default
 music.volume = 0.7;
 
-function startMusic() {
-    music.play();
-    document.removeEventListener("click", startMusic);
-    document.removeEventListener("touchstart", startMusic);
-}
-
-// play setelah user sentuh layar
-document.addEventListener("click", startMusic);
-document.addEventListener("touchstart", startMusic);
+document.addEventListener("DOMContentLoaded", function() {
+    music.play().then(() => {
+        // setelah berhasil autoplay, buka mute
+        setTimeout(() => {
+            music.muted = false;
+        }, 500);
+    }).catch(() => {
+        // kalau diblok, pakai sentuhan pertama user
+        document.body.addEventListener("click", () => {
+            music.muted = false;
+            music.play();
+        }, { once: true });
+    });
+});
 </script>
 </body>
 </html>
