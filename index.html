@@ -194,7 +194,55 @@
         .contact-section img:hover {
             opacity: 0.8;
         }
-        
+        /* MUSIC PANEL */
+.music-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    z-index: 9999;
+}
+
+.music-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4e73ff, #6c5ce7);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: 0.3s ease;
+}
+
+.music-btn:hover {
+    transform: scale(1.1);
+}
+
+.volume-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.volume-buttons button {
+    background: rgba(0,0,0,0.6);
+    color: white;
+    border-radius: 6px;
+    padding: 4px 6px;
+    font-size: 11px;
+    cursor: pointer;
+    border: none;
+}
+
+.volume-buttons button:hover {
+    background: #4e73ff;
+}
     </style> 
 </head>
 <body>
@@ -314,28 +362,65 @@
         }
     </script>
     <!-- AUDIO -->
-<audio id="bg-music" autoplay loop muted playsinline>
+<audio id="bg-music" loop autoplay muted playsinline>
     <source src="https://files.catbox.moe/f543pj.mp3" type="audio/mpeg">
 </audio>
 
+<!-- MUSIC PANEL -->
+<div class="music-panel">
+    <div class="music-btn" id="musicToggle">🔊</div>
+    <div class="volume-buttons">
+        <button data-vol="0.4">40%</button>
+        <button data-vol="0.7">70%</button>
+        <button data-vol="0.8">80%</button>
+        <button data-vol="1">100%</button>
+    </div>
+</div>
+
 <script>
 const music = document.getElementById("bg-music");
+const toggleBtn = document.getElementById("musicToggle");
+const volumeButtons = document.querySelectorAll(".volume-buttons button");
 
-// set volume default
-music.volume = 0.7;
+// ambil setting lama
+let savedVolume = localStorage.getItem("musicVolume");
+let savedState = localStorage.getItem("musicState");
 
-document.addEventListener("DOMContentLoaded", function() {
+music.volume = savedVolume ? savedVolume : 0.7;
+
+// autoplay fix
+document.addEventListener("DOMContentLoaded", () => {
     music.play().then(() => {
-        // setelah berhasil autoplay, buka mute
         setTimeout(() => {
             music.muted = false;
         }, 500);
     }).catch(() => {
-        // kalau diblok, pakai sentuhan pertama user
         document.body.addEventListener("click", () => {
             music.muted = false;
             music.play();
         }, { once: true });
+    });
+});
+
+// toggle play pause
+toggleBtn.addEventListener("click", () => {
+    if (music.paused) {
+        music.play();
+        toggleBtn.textContent = "🔊";
+        localStorage.setItem("musicState", "play");
+    } else {
+        music.pause();
+        toggleBtn.textContent = "🔇";
+        localStorage.setItem("musicState", "pause");
+    }
+});
+
+// volume buttons
+volumeButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        let vol = btn.getAttribute("data-vol");
+        music.volume = vol;
+        localStorage.setItem("musicVolume", vol);
     });
 });
 </script>
