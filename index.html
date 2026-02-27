@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manga API Documentation</title>
+    <title>Manga API Documentation ReyyZhouu</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
         * {
@@ -245,7 +245,7 @@
         </label>
     </div>
 
-    <h1>Manga API Documentation</h1>
+    <h1>Manga API Documentation ReyyZhouu</h1>
 
     <h2>Search Manga</h2>
     <p>Endpoint: <code>/search</code></p>
@@ -314,37 +314,25 @@
         }
     </script>
     <!-- AUDIO -->
-<audio id="bg-music" autoplay loop>
+<audio id="bg-music" loop>
     <source src="https://files.catbox.moe/f543pj.mp3" type="audio/mpeg">
 </audio>
+
 <script>
 const music = document.getElementById("bg-music");
-const icon = document.getElementById("musicIcon");
 
 // default volume
 music.volume = 0.7;
 
-document.addEventListener("DOMContentLoaded", function() {
-    music.play().catch(() => {
-        document.body.addEventListener("click", () => {
-            music.play();
-        }, { once: true });
-    });
-});
-
-function toggleMusic() {
-    if (music.paused) {
-        music.play();
-        icon.textContent = "🔊";
-    } else {
-        music.pause();
-        icon.textContent = "🔇";
-    }
+function startMusic() {
+    music.play();
+    document.removeEventListener("click", startMusic);
+    document.removeEventListener("touchstart", startMusic);
 }
 
-function setVolume(level) {
-    music.volume = level;
-}
+// play setelah user sentuh layar
+document.addEventListener("click", startMusic);
+document.addEventListener("touchstart", startMusic);
 </script>
 </body>
 </html>
