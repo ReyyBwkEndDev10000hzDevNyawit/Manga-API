@@ -197,8 +197,8 @@
     </style>
 </head>
 <body>
-    <a href="https://github.com/FireFlyDeveloper" target="_blank" rel="noopener noreferrer">
-        <img src="https://avatars.githubusercontent.com/u/153905107?v=4" alt="GitHub Logo" class="github-logo" width="42" height="42">
+    <a href="<img src="https://files.catbox.moe/0nvr1x.jpeg"" target="_blank" rel="noopener noreferrer">
+        <img src="https://files.catbox.moe/0nvr1x.jpeg" alt="Reyy Logo" class="Reyy-logo" width="42" height="42">
     </a>
 
     
@@ -310,5 +310,50 @@
             body.classList.toggle('light-mode');
         }
     </script>
+    <!-- AUDIO -->
+<audio id="bg-music" autoplay loop>
+    <source src="https://files.catbox.moe/f543pj.mp3" type="audio/mpeg">
+</audio>
+
+<!-- MUSIC PANEL -->
+<div class="music-panel">
+    <div class="music-btn" onclick="toggleMusic()" id="musicIcon">🔊</div>
+    <div class="volume-buttons">
+        <button onclick="setVolume(0.4)">40%</button>
+        <button onclick="setVolume(0.7)">70%</button>
+        <button onclick="setVolume(0.8)">80%</button>
+        <button onclick="setVolume(1)">100%</button>
+    </div>
+</div>
+
+<script>
+const music = document.getElementById("bg-music");
+const icon = document.getElementById("musicIcon");
+
+// default volume
+music.volume = 0.7;
+
+document.addEventListener("DOMContentLoaded", function() {
+    music.play().catch(() => {
+        document.body.addEventListener("click", () => {
+            music.play();
+        }, { once: true });
+    });
+});
+
+function toggleMusic() {
+    if (music.paused) {
+        music.play();
+        icon.textContent = "🔊";
+    } else {
+        music.pause();
+        icon.textContent = "🔇";
+    }
+}
+
+function setVolume(level) {
+    music.volume = level;
+}
+</script>
 </body>
 </html>
